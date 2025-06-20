@@ -62,13 +62,19 @@
     </div>
     <dialog class="modal" id="modal">
         <form class="book-form" method="dialog">
-            <p>Add Book</p>
+            <h2>Add Book</h2>
             <label for="title-input">Title:<input type="text" name="bookTitle" id="title-input"></label>
             
             <label for="author-input">Author:<input type="text" name="author" id="author-input"></label>
-            <label for="page-count-input">Pages: <input type="text" name="pageCount" id="page-count-input"></label>
-            
-            <button class="submit-button" type="submit">add book</button>
+            <label for="page-count-input">Pages: <input type="number" name="pageCount" id="page-count-input"></label>
+            <div class="modal-bottom">
+                <p>Read</p>
+                <label class="switch">
+                    <input type="checkbox" id="read-toggle">
+                    <span class="slider round"></span>
+                </label>
+            <button type="submit">Submit</button>
+            </div>
         </form>
     </dialog>
     
