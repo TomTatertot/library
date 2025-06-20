@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ancizar+Sans:ital,wght@0,100..1000;1,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,737;1,737&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1 class="title">Personal Library</h1>
+    </header>
+    <div class="book-container">
+        <button class="card open-modal">+</button>
+
+        <div class="card">
+            <img class="book-cover" src="https://m.media-amazon.com/images/I/712cDO7d73L.jpg" alt="">
+            <p class="book-title">The Hobbit</p>
+            <p>J.R.R Tolkien</p>
+            <p>310 Pages</p>
+            <button class= "read-button">Read</button>
+            <button class="remove-button">Remove</button>       
+        </div>
+
+        <div class="card">
+            <img class="book-cover" src="https://m.media-amazon.com/images/I/712cDO7d73L.jpg" alt="">
+            <p class="book-title">The Hobbit</p>
+            <p>J.R.R Tolkien</p>
+            <p>310 Pages</p>
+            <button class="read-button">Read</button>
+            <button class="remove-button">Remove</button>       
+        </div>
+
+        <div class="card">
+            <img class="book-cover" src="https://m.media-amazon.com/images/I/712cDO7d73L.jpg" alt="">
+            <p class="book-title">The Hobbit</p>
+            <p>J.R.R Tolkien</p>
+            <p>310 Pages</p>
+            <button class="read-button">Read</button>
+            <button class="remove-button">Remove</button>       
+        </div>
+
+        <div class="card">
+            <img class="book-cover" src="https://m.media-amazon.com/images/I/712cDO7d73L.jpg" alt="">
+            <p class="book-title">The Hobbit</p>
+            <p>J.R.R Tolkien</p>
+            <p>310 Pages</p>
+            <button class="read-button">Read</button>
+            <button class="remove-button">Remove</button>       
+        </div>
+        <div class="card">
+            <img class="book-cover" src="https://m.media-amazon.com/images/I/712cDO7d73L.jpg" alt="">
+            <p class="book-title">The Hobbit</p>
+            <p>J.R.R Tolkien</p>
+            <p>310 Pages</p>
+            <button class="read-button">Read</button>
+            <button class="remove-button">Remove</button>       
+        </div>
+    </div>
+    <dialog class="modal" id="modal">
+        <form class="book-form" method="dialog">
+            <p>Add Book</p>
+            <label for="title-input">Title:<input type="text" name="bookTitle" id="title-input"></label>
+            
+            <label for="author-input">Author:<input type="text" name="author" id="author-input"></label>
+            <label for="page-count-input">Pages: <input type="text" name="pageCount" id="page-count-input"></label>
+            
+            <button class="submit-button" type="submit">add book</button>
+        </form>
+    </dialog>
+    
+     <script src="script.js"></script>
+</body>
+</html>
