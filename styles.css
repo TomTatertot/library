@@ -25,6 +25,7 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
 
 .card {
     width: 15rem;
+    min-height: 25rem;
     text-align: center;
     background-color: rgba(0 0 0 / 15%);
     padding: 1rem;
@@ -35,6 +36,11 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
 .open-modal{
     font-size: 4rem;
     border: none;
+}
+
+.open-modal:hover,
+.open-modal:focus{
+    background-color: rgba(0 0 0 / 30%);
 }
 
 .book-cover {
@@ -48,11 +54,6 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
 .book button {
     margin-top: 10px;
     padding: 5px 10px;
-}
-
-button:hover,
-button:focus {
-
 }
 
 .modal::backdrop {
