@@ -39,12 +39,22 @@ function addBookToLibrary(title, author, pages, read, imageURL) {
     card.classList.add("card");
     card.innerHTML = `
         <img class="book-cover" src="${imageURL}"alt="">
-        <p class="book-title">${title}</p>
-        <p>${author}</p>
-        <p>${pages}</p>
-        <button class= "read-button">Read</button>
-        <button class="remove-button">Remove</button>   
+        <div class="card-overlay">
+            <p class="overlay-title">${title}</p>
+            <p class="overlay-author">${author}</p>
+            <p class="overlay-pages">${pages}</p>
+        </div>
     `
+        // <button class= "read-button">Read</button>
+        // <button class="remove-button">Remove</button>  
+
+//     <div class="book-image-wrapper">
+//     <img class="book-cover" src="https://m.media-amazon.com/images/I/712cDO7d73L.jpg" alt="">
+//     <div class="overlay">
+//       <p class="overlay-title">The Hobbit</p>
+//       <p class="overlay-pages">310 Pages</p>
+//     </div>
+//   </div>
     document.querySelector(".book-container").appendChild(card); 
 }
 
