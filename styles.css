@@ -50,12 +50,16 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
   text-align: center;
 }
 
 .card:hover .card-overlay {
   opacity: 1;
+}
+
+.overlay-buttons {
+    display: flex;
+    gap: 1rem;
 }
 
 .open-modal{
@@ -163,4 +167,19 @@ input:checked + .slider {
 }
 input:checked + .slider:before {
   transform: translateX(26px);
+}
+
+svg{
+    width: 20px;
+    background-color: none;
+}
+
+.card-overlay button {
+    background: transparent;
+    border:none;
+
+}
+
+button {
+    cursor: pointer;
 }
