@@ -3,6 +3,10 @@ const openModal = document.querySelector(".open-modal");
 const closeModal = document.querySelector(".close-modal");
 const form = document.querySelector(".book-form");
 
+const isReadBtn = document.querySelector(".read-button");
+const editBtn = document.querySelector(".edit-button");
+const removeBtn = document.querySelector(".remove-button");
+
 
 openModal.addEventListener("click", () => {
     modal.showModal();
@@ -38,12 +42,9 @@ function Book(title, author, pages, isRead, imageURL) {
 
 function addBookToLibrary(title, author, pages, isRead, imageURL) {
     myLibrary.push(new Book(title, author, pages, isRead, imageURL));
-    // const container = document.querySelector(".book-container");
-    // const card = createBookCard(title, author, pages, isRead, imageURL);
-    // container.insertBefore(card, container.children[1]);
 }
 
-function createBookCard(title, author, pages, isRead, imageURL){
+function createBookCard(book){
     const card = document.createElement("div");
     card.className = "card book";
 
@@ -52,42 +53,25 @@ function createBookCard(title, author, pages, isRead, imageURL){
 
     const cover = document.createElement("img");
     cover.className = "book-cover";
-    cover.src = imageURL;
+    cover.src = book.imageURL;
 
     // book info
     const titleEl = document.createElement("p");
     titleEl.className = "overlay-title";
-    titleEl.textContent = title;
+    titleEl.textContent = book.title;
 
     const authorEl = document.createElement("p");
     authorEl.className = "overlay-author";
-    authorEl.textContent = author;
+    authorEl.textContent = book.author;
 
     const pagesEl = document.createElement("p");
     pagesEl.className = "overlay-pages";
-    pagesEl.textContent = pages;
+    pagesEl.textContent = book.pages;
 
-    // button icons
-    const readBtnIcon = createSVGIcon("M16.75 22.16L14 19.16L15.16 18L16.75 19.59L20.34 16L21.5 17.41L16.75 22.16M6 22C4.89 22 4 21.1 4 20V4C4 2.89 4.89 2 6 2H7V9L9.5 7.5L12 9V2H18C19.1 2 20 2.89 20 4V13.34C19.37 13.12 18.7 13 18 13C14.69 13 12 15.69 12 19C12 20.09 12.29 21.12 12.8 22H6Z", 
-        "white");
+    card.dataset.isRead = book.isRead;
+    card.dataset.id = book.ID;
 
-    const editBtnIcon = createSVGIcon("M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z", 
-        "white");
-
-    const removeBtnIcon = createSVGIcon("M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z", 
-        "white");
-    
-    // buttons
-    const readBtn = createIconButton("Mark as read", "read-button", readBtnIcon);
-    const editBtn = createIconButton("Edit", "edit-button", editBtnIcon);
-    const removeBtn = createIconButton("Remove", "remove-button", removeBtnIcon);
-
-    const overlayButtonList = document.createElement("div");
-    overlayButtonList.className = "overlay-buttons"
-    overlayButtonList.append(readBtn, editBtn, removeBtn);
-
-
-    overlay.append(titleEl, authorEl, pagesEl, overlayButtonList);
+    overlay.append(titleEl, authorEl, pagesEl, createOverlayButtons());
     card.append(cover, overlay);
 
     return card;
@@ -118,10 +102,38 @@ function createIconButton(title, className, icon){
     return iconBtn;
 }
 
+function createOverlayButtons(){
+    // button icons
+    const readBtnIcon = createSVGIcon("M16.75 22.16L14 19.16L15.16 18L16.75 19.59L20.34 16L21.5 17.41L16.75 22.16M6 22C4.89 22 4 21.1 4 20V4C4 2.89 4.89 2 6 2H7V9L9.5 7.5L12 9V2H18C19.1 2 20 2.89 20 4V13.34C19.37 13.12 18.7 13 18 13C14.69 13 12 15.69 12 19C12 20.09 12.29 21.12 12.8 22H6Z", 
+        "white");
+
+    const editBtnIcon = createSVGIcon("M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z", 
+        "white");
+
+    const removeBtnIcon = createSVGIcon("M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z", 
+        "white");
+    
+    // buttons
+    const readBtn = createIconButton("Mark as read", "read-button", readBtnIcon);
+    const editBtn = createIconButton("Edit", "edit-button", editBtnIcon);
+    const removeBtn = createIconButton("Remove", "remove-button", removeBtnIcon);
+
+    readBtn.addEventListener("click", handleIsReadClick);
+    editBtn.addEventListener("click", handleEditClick);
+    removeBtn.addEventListener("click", handleRemoveClick);
+
+
+    const overlayButtonList = document.createElement("div");
+    overlayButtonList.className = "overlay-buttons"
+    overlayButtonList.append(readBtn, editBtn, removeBtn);
+
+    return overlayButtonList;
+}
+
 function displayLibrary(){
     const container = document.querySelector(".book-container");
-    myLibrary.forEach((elem) => {
-        const card = createBookCard(elem.title, elem.author, elem.pages, elem.isRead, elem.imageURL);
+    myLibrary.forEach((book) => {
+        const card = createBookCard(book);
         container.insertBefore(card, container.children[1]);
     })
 }
@@ -131,6 +143,35 @@ function clearLibraryDisplay(){
     cardList.forEach((card) => {
         card.remove();
     });
+}
+
+function handleIsReadClick(event){
+    const btn = event.target.closest("button");
+    const book = btn.closest(".book");
+    const svgPathEl = btn.querySelector("path");
+
+
+    let isRead = book.dataset.isRead;
+    if (isRead === "true")
+    {
+        const svgPath = "M12 21.5C10.65 20.65 8.2 20 6.5 20C4.85 20 3.15 20.3 1.75 21.05C1.65 21.1 1.6 21.1 1.5 21.1C1.25 21.1 1 20.85 1 20.6V6C1.6 5.55 2.25 5.25 3 5C4.11 4.65 5.33 4.5 6.5 4.5C8.45 4.5 10.55 4.9 12 6C13.45 4.9 15.55 4.5 17.5 4.5C18.67 4.5 19.89 4.65 21 5C21.75 5.25 22.4 5.55 23 6V20.6C23 20.85 22.75 21.1 22.5 21.1C22.4 21.1 22.35 21.1 22.25 21.05C20.85 20.3 19.15 20 17.5 20C15.8 20 13.35 20.65 12 21.5M12 8V19.5C13.35 18.65 15.8 18 17.5 18C18.7 18 19.9 18.15 21 18.5V7C19.9 6.65 18.7 6.5 17.5 6.5C15.8 6.5 13.35 7.15 12 8M13 11.5C14.11 10.82 15.6 10.5 17.5 10.5C18.41 10.5 19.26 10.59 20 10.78V9.23C19.13 9.08 18.29 9 17.5 9C15.73 9 14.23 9.28 13 9.84V11.5M17.5 11.67C15.79 11.67 14.29 11.93 13 12.46V14.15C14.11 13.5 15.6 13.16 17.5 13.16C18.54 13.16 19.38 13.24 20 13.4V11.9C19.13 11.74 18.29 11.67 17.5 11.67M20 14.57C19.13 14.41 18.29 14.33 17.5 14.33C15.67 14.33 14.17 14.6 13 15.13V16.82C14.11 16.16 15.6 15.83 17.5 15.83C18.54 15.83 19.38 15.91 20 16.07V14.57Z"
+        book.dataset.isRead = false;
+        svgPathEl.setAttribute("d",svgPath);
+
+    }
+    else
+    {
+        const svgPath = "M16.75 22.16L14 19.16L15.16 18L16.75 19.59L20.34 16L21.5 17.41L16.75 22.16M6 22C4.89 22 4 21.1 4 20V4C4 2.89 4.89 2 6 2H7V9L9.5 7.5L12 9V2H18C19.1 2 20 2.89 20 4V13.34C19.37 13.12 18.7 13 18 13C14.69 13 12 15.69 12 19C12 20.09 12.29 21.12 12.8 22H6Z"
+        book.dataset.isRead = true;
+        svgPathEl.setAttribute("d",svgPath);
+    }
+
+}
+function handleEditClick(event){
+    console.log("edit");
+}
+function handleRemoveClick(event){
+    console.log("remove");
 }
 
 addBookToLibrary("The Hobbit", "J.R.R Tolkien", "310 Pages", "false", "https://m.media-amazon.com/images/I/712cDO7d73L.jpg")
