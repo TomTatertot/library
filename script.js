@@ -3,6 +3,7 @@ const openModal = document.querySelector(".open-modal");
 const closeModal = document.querySelector(".close-modal");
 const form = document.querySelector(".book-form");
 
+
 openModal.addEventListener("click", () => {
     modal.showModal();
 })
@@ -17,6 +18,8 @@ form.addEventListener("submit", function(event){
     const imageURL = document.querySelector("#image-url-input").value.trim();
 
     addBookToLibrary(title, author, pages, isRead, imageURL);
+    clearLibraryDisplay();
+    displayLibrary();
 
     modal.close();
 })
@@ -35,14 +38,14 @@ function Book(title, author, pages, isRead, imageURL) {
 
 function addBookToLibrary(title, author, pages, isRead, imageURL) {
     myLibrary.push(new Book(title, author, pages, isRead, imageURL));
-    const container = document.querySelector(".book-container");
-    const card = createBookCard(title, author, pages, isRead, imageURL);
-    container.insertBefore(card, container.children[1]);
+    // const container = document.querySelector(".book-container");
+    // const card = createBookCard(title, author, pages, isRead, imageURL);
+    // container.insertBefore(card, container.children[1]);
 }
 
 function createBookCard(title, author, pages, isRead, imageURL){
     const card = document.createElement("div");
-    card.className = "card";
+    card.className = "card book";
 
     const overlay = document.createElement("div");
     overlay.className = "card-overlay";
@@ -108,19 +111,30 @@ function createSVGIcon (path, color){
 }
 
 function createIconButton(title, className, icon){
-
-    // const btnTitle = document.createElement("title");
-    // btnTitle.textContent = title;
-
     const iconBtn = document.createElement("button");
     iconBtn.className = className;
     iconBtn.setAttribute("title", title);
-
-
     iconBtn.appendChild(icon);
-    // iconBtn.appendChild(btnTitle);
-
     return iconBtn;
 }
 
+function displayLibrary(){
+    const container = document.querySelector(".book-container");
+    myLibrary.forEach((elem) => {
+        const card = createBookCard(elem.title, elem.author, elem.pages, elem.isRead, elem.imageURL);
+        container.insertBefore(card, container.children[1]);
+    })
+}
+
+function clearLibraryDisplay(){
+    const cardList = document.querySelectorAll(".book-container .book ");
+    cardList.forEach((card) => {
+        card.remove();
+    });
+}
+
+addBookToLibrary("The Hobbit", "J.R.R Tolkien", "310 Pages", "false", "https://m.media-amazon.com/images/I/712cDO7d73L.jpg")
+addBookToLibrary("Space Odyssey", "Arthur Clarke", "296 Pages", "true", "https://m.media-amazon.com/images/I/71v0Uz2n2GL.jpg")
+addBookToLibrary("Children Of Time", "Adrian Tchaikovsky", "640 Pages", "true", "https://m.media-amazon.com/images/I/81Xb8fFEkwL._SL1500_.jpg")
+displayLibrary();
 console.log(myLibrary);
