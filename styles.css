@@ -58,8 +58,10 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
 }
 
 .overlay-buttons {
+    position: absolute;
+    bottom: 30px;
     display: flex;
-    gap: 1rem;
+    gap: 3.5rem;
 }
 
 .open-modal{
