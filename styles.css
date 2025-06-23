@@ -6,6 +6,8 @@
 
 body {
 font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  overflow-x: hidden;
+
 }
 
 .title {
@@ -17,18 +19,19 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
 
 .book-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
     justify-items: center;
     padding: 3rem;
     gap: 2rem;
+    /* min-width: 32rem; */
 }
 
 .card {
     position: relative;
     overflow: hidden;
     border-radius: 10px;
-    width: 15rem;
-    height: 25rem;
+    width: 12rem;
+    height: 20rem;
     text-align: center;
     background-color: rgba(0 0 0 / 15%);
     font-size: 1.2rem;
@@ -129,7 +132,7 @@ input {
   position: relative;
   display: inline-block;
   width: 50px;
-  height: 28px;
+  height: 22px;
   margin-right: 5rem;
 }
 .switch input {
@@ -143,21 +146,21 @@ input {
   top: 0; left: 0;
   right: 0; bottom: 0;
   background-color: #ccc;
-  transition: .4s;
+  transition: .2s;
   border-radius: 28px;
 }
 .slider:before {
   position: absolute;
   content: "";
-  height: 20px; width: 20px;
+  height: 15px; width: 15px;
   left: 4px; bottom: 4px;
   background-color: white;
-  transition: .4s;
+  transition: .2s;
   border-radius: 50%;
 }
 input:checked + .slider {
   background-color: #4caf50;
 }
 input:checked + .slider:before {
-  transform: translateX(22px);
+  transform: translateX(26px);
 }

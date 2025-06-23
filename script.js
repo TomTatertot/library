@@ -33,56 +33,40 @@ function Book(title, author, pages, isRead, imageURL) {
     this.ID = crypto.randomUUID(); //creates unique random ID for each book
 }
 
-function addBookToLibrary(title, author, pages, read, imageURL) {
-    myLibrary.push(new Book(title, author, pages, read, imageURL));
+function addBookToLibrary(title, author, pages, isRead, imageURL) {
+    myLibrary.push(new Book(title, author, pages, isRead, imageURL));
+
+    const container = document.querySelector(".book-container");
+
     const card = document.createElement("div");
+    const overlay = document.createElement("div");
+
+    const newCover = document.createElement("img");
+    const newTitle = document.createElement("p");
+    const newAuthor = document.createElement("p");
+    const newPages = document.createElement("p");
+    
     card.classList.add("card");
-    card.innerHTML = `
-        <img class="book-cover" src="${imageURL}"alt="">
-        <div class="card-overlay">
-            <p class="overlay-title">${title}</p>
-            <p class="overlay-author">${author}</p>
-            <p class="overlay-pages">${pages}</p>
-        </div>
-    `
-        // <button class= "read-button">Read</button>
-        // <button class="remove-button">Remove</button>  
+    overlay.className = "card-overlay";
+    newCover.className = "book-cover";
+    newTitle.className = "overlay-title";
+    newAuthor.className = "overlay-author";
+    newPages.className = "overlay-pages";
 
-//     <div class="book-image-wrapper">
-//     <img class="book-cover" src="https://m.media-amazon.com/images/I/712cDO7d73L.jpg" alt="">
-//     <div class="overlay">
-//       <p class="overlay-title">The Hobbit</p>
-//       <p class="overlay-pages">310 Pages</p>
-//     </div>
-//   </div>
-    document.querySelector(".book-container").appendChild(card); 
+    newCover.src = imageURL;
+    newTitle.textContent = title;
+    newAuthor.textContent = author;
+    newPages.textContent = pages;
+
+    overlay.appendChild(newCover);
+    overlay.appendChild(newTitle);
+    overlay.appendChild(newAuthor);
+    overlay.appendChild(newPages);
+
+    card.appendChild(newCover);
+    card.appendChild(overlay);
+
+    document.querySelector(".card.open-modal").after(card);
 }
-
-// function displayLibrary() {
-//     myLibrary.forEach(book => { 
-//         console.log(book);
-//         const card = document.createElement("div");
-//         card.classList.add("card");
-//         card.innerHTML = `
-//             <img class="book-cover" src="${book.imageURL}"alt="">
-//             <p class="book-title">${book.title}</p>
-//             <p>${book.author}</p>
-//             <p>${book.pages}</p>
-//             <button class= "read-button">Read</button>
-//             <button class="remove-button">Remove</button>   
-//         `
-//         document.querySelector(".book-container").appendChild(card); 
-//     });
-// }
-
-// addBookToLibrary("theHobbit", "J.R.R. Tolkien", 300, true, "https://m.media-amazon.com/images/I/712cDO7d73L.jpg");
-// addBookToLibrary("theHobbit", "J.R.R. Tolkien", 300, true, "https://m.media-amazon.com/images/I/712cDO7d73L.jpg");
-// addBookToLibrary("theHobbit", "J.R.R. Tolkien", 300, true, "https://m.media-amazon.com/images/I/712cDO7d73L.jpg");
-
-// displayLibrary();
-// addBookToLibrary("Children Of Time", "Adrian Tchaikovsky", 600);
-// addBookToLibrary("Space Odyssey", "Arthur Clarke", 600);
-
-
 
 console.log(myLibrary);
