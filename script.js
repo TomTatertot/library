@@ -120,7 +120,7 @@ function createOverlayButtons(book){
         "white");
         readBtnTitle = "Mark as read";
     }
-    
+
     const editBtnIcon = createSVGIcon("M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z", 
         "white");
 
@@ -184,7 +184,7 @@ function handleRemoveClick(event){
     console.log("remove");
 }
 
-// addBookToLibrary("The Hobbit", "J.R.R Tolkien", "310 Pages", "false", "https://m.media-amazon.com/images/I/712cDO7d73L.jpg")
-// addBookToLibrary("Space Odyssey", "Arthur Clarke", "296 Pages", "true", "https://m.media-amazon.com/images/I/71v0Uz2n2GL.jpg")
-// addBookToLibrary("Children Of Time", "Adrian Tchaikovsky", "640 Pages", "true", "https://m.media-amazon.com/images/I/81Xb8fFEkwL._SL1500_.jpg")
+addBookToLibrary("The Hobbit", "J.R.R Tolkien", "310 Pages", false, "https://m.media-amazon.com/images/I/712cDO7d73L.jpg")
+addBookToLibrary("Space Odyssey", "Arthur Clarke", "296 Pages", true, "https://m.media-amazon.com/images/I/71v0Uz2n2GL.jpg")
+addBookToLibrary("Children Of Time", "Adrian Tchaikovsky", "640 Pages", true, "https://m.media-amazon.com/images/I/81Xb8fFEkwL._SL1500_.jpg")
 displayLibrary();
