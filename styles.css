@@ -57,6 +57,48 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
   opacity: 1;
 }
 
+/* common */
+.ribbon {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  position: absolute;
+}
+.ribbon::before,
+.ribbon::after {
+  position: absolute;
+  z-index: -1;
+  content: '';
+  display: block;
+  border: 5px solid #000000c0;
+}
+.ribbon span {
+  position: absolute;
+  display: block;
+  width: 225px;
+  padding: 10px 0;
+  background-color: #000000b6;
+  box-shadow: 0 5px 10px rgba(0,0,0,.1);
+  color: #fff;
+  font: 700 18px/1 'Lato', sans-serif;
+  text-shadow: 0 1px 1px rgba(0,0,0,.2);
+  text-transform: uppercase;
+  text-align: center;
+}
+.ribbon-top-right {
+  top: -10px;
+  right: -10px;
+}
+.ribbon-top-right span {
+  left: -25px;
+  top: 30px;
+  transform: rotate(45deg);
+}
+
+.invisible {
+    opacity: 0;
+}
+
 .overlay-buttons {
     position: absolute;
     bottom: 25px;

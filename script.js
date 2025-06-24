@@ -74,8 +74,16 @@ function createBookCard(book){
     // card.dataset.isRead = book.isRead;
     card.dataset.id = book.ID;
 
+    const ribbon = document.createElement("div");
+    ribbon.classList = "ribbon ribbon-top-right";
+    ribbon.classList.toggle("invisible", !book.isRead);
+
+    ribbonSpan = document.createElement("span");
+    ribbonSpan.textContent = "read";
+    ribbon.appendChild(ribbonSpan)
+
     overlay.append(titleEl, authorEl, pagesEl, createOverlayButtons(book));
-    card.append(cover, overlay);
+    card.append(cover, ribbon, overlay);
 
     return card;
 }
@@ -164,7 +172,6 @@ function clearLibraryDisplay(){
 function handleIsReadClick(event, book){
     const btn = event.target.closest("button");
     const svgPathEl = btn.querySelector("path");
-
     if (book.isRead)
     {
         book.isRead = false;
