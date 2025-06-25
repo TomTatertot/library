@@ -51,6 +51,7 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
   align-items: center;
   justify-content: center;
   text-align: center;
+  gap: 1rem;
 }
 
 .card:hover .card-overlay {

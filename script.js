@@ -34,6 +34,12 @@ form.addEventListener("submit", function(event){
 
 const myLibrary = [];
 
+Book.prototype.toggleRead = function(){
+    console.log("before toggle" + this.isRead)
+    this.isRead = !this.isRead;
+    console.log("after toggle" + this.isRead);
+}
+
 function Book(title, author, pages, isRead, imageURL) {
     this.title = title;
     this.author = author;
@@ -141,7 +147,7 @@ function createOverlayButtons(book){
     const removeBtn = createIconButton("Remove", "remove-button", removeBtnIcon);
 
     readBtn.addEventListener("click", (event) => {
-        handleIsReadClick(event, book);
+        handleIsReadClick(event);
     });
     editBtn.addEventListener("click", handleEditClick);
     removeBtn.addEventListener("click", handleRemoveClick);
@@ -169,23 +175,24 @@ function clearLibraryDisplay(){
     });
 }
 
-function handleIsReadClick(event, book){
+function handleIsReadClick(event){
     const btn = event.target.closest("button");
+    const bookCard = event.target.closest(".book");
+
     const svgPathEl = btn.querySelector("path");
-    const clickedBook = document.querySelector(`[data-id=${book.ID}`);
-    const ribbon = document.querySelector(".ribbon");
-    
-    console.log(ribbon);
-    if (book.isRead)
+    const ribbon = bookCard.querySelector(".ribbon");
+
+    const bookObj = getBookById(bookCard.dataset.id);
+    if (bookObj.isRead)
     {
         ribbon.classList.toggle("invisible");
-        book.isRead = false;
+        bookObj.toggleRead();
         svgPathEl.setAttribute("d", MARK_READ_SVG_PATH);
     }
     else
     {
         ribbon.classList.toggle("invisible");
-        book.isRead = true;
+        bookObj.toggleRead();
         svgPathEl.setAttribute("d",MARK_UNREAD_SVG_PATH);
     }
 }
@@ -193,7 +200,30 @@ function handleEditClick(event){
     console.log("edit");
 }
 function handleRemoveClick(event){
+    //remove DOM element using ID
+    const card = event.target.closest(".card");
+    const cardID = card.dataset.id;
+    card.remove();
+
+
+    console.log(cardID);
+    console.log(card);
+
+
+    //remove element from the library array
     console.log("remove");
+    removeBookById(cardID);
+}
+
+function getBookById(id){
+    return myLibrary.find(book => book.ID === id);
+}
+
+function removeBookById(id){
+    console.log(myLibrary.findIndex(book => book.ID === id));
+    let bookIndex = myLibrary.findIndex(book => book.ID === id);
+    myLibrary.splice(bookIndex, 1);
+    console.log(myLibrary);
 }
 
 addBookToLibrary("The Hobbit", "J.R.R Tolkien", "310 Pages", false, "https://m.media-amazon.com/images/I/712cDO7d73L.jpg")
