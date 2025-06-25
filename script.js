@@ -172,14 +172,19 @@ function clearLibraryDisplay(){
 function handleIsReadClick(event, book){
     const btn = event.target.closest("button");
     const svgPathEl = btn.querySelector("path");
+    const clickedBook = document.querySelector(`[data-id=${book.ID}`);
+    const ribbon = document.querySelector(".ribbon");
+    
+    console.log(ribbon);
     if (book.isRead)
     {
+        ribbon.classList.toggle("invisible");
         book.isRead = false;
         svgPathEl.setAttribute("d", MARK_READ_SVG_PATH);
-
     }
     else
     {
+        ribbon.classList.toggle("invisible");
         book.isRead = true;
         svgPathEl.setAttribute("d",MARK_UNREAD_SVG_PATH);
     }
