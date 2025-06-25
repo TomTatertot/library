@@ -10,11 +10,6 @@ const addBookForm = document.querySelector(".book-form");
 const editBookForm = document.querySelector(".edit-book-form");
 
 
-// const isReadBtn = document.querySelector(".read-button");
-// const editBtn = document.querySelector(".edit-button");
-// const removeBtn = document.querySelector(".remove-button");
-
-
 openModal.addEventListener("click", () => {
     modal.showModal();
 })
@@ -32,7 +27,7 @@ addBookForm.addEventListener("submit", function(event){
     clearLibraryDisplay();
     displayLibrary();
 
-    form.reset();
+    addBookForm.reset();
     modal.close();
 })
 
@@ -82,7 +77,7 @@ function createBookCard(book){
 
     const pagesEl = document.createElement("p");
     pagesEl.className = "overlay-pages";
-    pagesEl.textContent = book.pages;
+    pagesEl.textContent = `${book.pages} pages`;
 
     // card.dataset.isRead = book.isRead;
     card.dataset.id = book.ID;
@@ -195,12 +190,15 @@ function handleIsReadClick(event){
         ribbon.classList.toggle("invisible");
         bookObj.toggleRead();
         svgPathEl.setAttribute("d", MARK_READ_SVG_PATH);
+        btn.title = "Mark as read";
     }
     else
     {
         ribbon.classList.toggle("invisible");
         bookObj.toggleRead();
         svgPathEl.setAttribute("d",MARK_UNREAD_SVG_PATH);
+        btn.title = "Mark as unread";
+
     }
 }
 function handleEditClick(event){
@@ -271,7 +269,7 @@ function removeBookById(id){
 
 
 
-addBookToLibrary("The Hobbit", "J.R.R Tolkien", "310 Pages", false, "https://m.media-amazon.com/images/I/712cDO7d73L.jpg")
-addBookToLibrary("Space Odyssey", "Arthur Clarke", "296 Pages", true, "https://m.media-amazon.com/images/I/71v0Uz2n2GL.jpg")
-addBookToLibrary("Children Of Time", "Adrian Tchaikovsky", "640 Pages", true, "https://m.media-amazon.com/images/I/81Xb8fFEkwL._SL1500_.jpg")
+addBookToLibrary("The Hobbit", "J.R.R Tolkien", 310, false, "https://m.media-amazon.com/images/I/712cDO7d73L.jpg")
+addBookToLibrary("Space Odyssey", "Arthur Clarke", 296, true, "https://m.media-amazon.com/images/I/71v0Uz2n2GL.jpg")
+addBookToLibrary("Children Of Time", "Adrian Tchaikovsky", 640, true, "https://m.media-amazon.com/images/I/81Xb8fFEkwL._SL1500_.jpg")
 displayLibrary();
