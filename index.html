@@ -33,7 +33,23 @@
             </div>
         </form>
     </dialog>
-    
+    <dialog class="modal edit-modal" id="edit-modal">
+        <form class="edit-book-form" method="dialog">
+            <h2>Edit Book</h2>
+            <label for="title-input">Title:<input type="text" name="bookTitle" id="title-input"></label>
+            <label for="author-input">Author:<input type="text" name="author" id="author-input"></label>
+            <label for="page-count-input">Pages: <input type="number" name="pageCount" id="page-count-input"></label>
+            <label for="image-url-input">Image URL:<input type="text" name="imageURL" id="image-url-input"></label>
+            <div class="modal-bottom">
+                <p>Read</p>
+                <label class="switch">
+                    <input type="checkbox" id="read-toggle">
+                    <span class="slider round"></span>
+                </label>
+            <button type="submit">Submit</button>
+            </div>
+        </form>
+    </dialog>
      <script src="script.js"></script>
 </body>
 </html>

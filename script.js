@@ -2,20 +2,24 @@ const MARK_READ_SVG_PATH = "M16.75 22.16L14 19.16L15.16 18L16.75 19.59L20.34 16L
 const MARK_UNREAD_SVG_PATH = "M12 21.5C10.65 20.65 8.2 20 6.5 20C4.85 20 3.15 20.3 1.75 21.05C1.65 21.1 1.6 21.1 1.5 21.1C1.25 21.1 1 20.85 1 20.6V6C1.6 5.55 2.25 5.25 3 5C4.11 4.65 5.33 4.5 6.5 4.5C8.45 4.5 10.55 4.9 12 6C13.45 4.9 15.55 4.5 17.5 4.5C18.67 4.5 19.89 4.65 21 5C21.75 5.25 22.4 5.55 23 6V20.6C23 20.85 22.75 21.1 22.5 21.1C22.4 21.1 22.35 21.1 22.25 21.05C20.85 20.3 19.15 20 17.5 20C15.8 20 13.35 20.65 12 21.5M12 8V19.5C13.35 18.65 15.8 18 17.5 18C18.7 18 19.9 18.15 21 18.5V7C19.9 6.65 18.7 6.5 17.5 6.5C15.8 6.5 13.35 7.15 12 8M13 11.5C14.11 10.82 15.6 10.5 17.5 10.5C18.41 10.5 19.26 10.59 20 10.78V9.23C19.13 9.08 18.29 9 17.5 9C15.73 9 14.23 9.28 13 9.84V11.5M17.5 11.67C15.79 11.67 14.29 11.93 13 12.46V14.15C14.11 13.5 15.6 13.16 17.5 13.16C18.54 13.16 19.38 13.24 20 13.4V11.9C19.13 11.74 18.29 11.67 17.5 11.67M20 14.57C19.13 14.41 18.29 14.33 17.5 14.33C15.67 14.33 14.17 14.6 13 15.13V16.82C14.11 16.16 15.6 15.83 17.5 15.83C18.54 15.83 19.38 15.91 20 16.07V14.57Z"
 
 const modal = document.querySelector("#modal");
+const editModal = document.querySelector("#edit-modal");
+
 const openModal = document.querySelector(".open-modal");
 const closeModal = document.querySelector(".close-modal");
-const form = document.querySelector(".book-form");
+const addBookForm = document.querySelector(".book-form");
+const editBookForm = document.querySelector(".edit-book-form");
 
-const isReadBtn = document.querySelector(".read-button");
-const editBtn = document.querySelector(".edit-button");
-const removeBtn = document.querySelector(".remove-button");
+
+// const isReadBtn = document.querySelector(".read-button");
+// const editBtn = document.querySelector(".edit-button");
+// const removeBtn = document.querySelector(".remove-button");
 
 
 openModal.addEventListener("click", () => {
     modal.showModal();
 })
 
-form.addEventListener("submit", function(event){
+addBookForm.addEventListener("submit", function(event){
     event.preventDefault();
 
     const title = document.querySelector('#title-input').value.trim();
@@ -28,8 +32,11 @@ form.addEventListener("submit", function(event){
     clearLibraryDisplay();
     displayLibrary();
 
+    form.reset();
     modal.close();
 })
+
+editBookForm.addEventListener("submit", handleEditBookSubmit);
 
 
 const myLibrary = [];
@@ -197,21 +204,58 @@ function handleIsReadClick(event){
     }
 }
 function handleEditClick(event){
+    const card = event.target.closest(".card");
+    const bookObj = getBookById(card.dataset.id);
+    console.log(bookObj);
+
+    const editModal = document.querySelector("#edit-modal");
+    editModal.dataset.bookId = bookObj.ID;
+    const newTitle = editModal.querySelector('#title-input');
+    const newAuthor = editModal.querySelector('#author-input');
+    const newPages = editModal.querySelector('#page-count-input');
+    const newIsRead = editModal.querySelector('#read-toggle');
+    const newImageURL = editModal.querySelector("#image-url-input");
+
+    newTitle.value = bookObj.title;
+    newAuthor.value = bookObj.author;
+    newPages.value = parseInt(bookObj.pages);
+    newIsRead.value = bookObj.isRead;
+    newImageURL.value = bookObj.imageURL;
+
+    editModal.showModal();
     console.log("edit");
 }
+
+function handleEditBookSubmit(event){
+    event.preventDefault();
+    const bookID =  editModal.dataset.bookId;
+    const bookObj = getBookById(bookID);
+
+    const newTitle = editModal.querySelector('#title-input').value.trim();
+    const newAuthor = editModal.querySelector('#author-input').value.trim();
+    const newPages = parseInt(editModal.querySelector('#page-count-input').value);
+    const newIsRead = editModal.querySelector('#read-toggle').checked;
+    const newImageURL = editModal.querySelector("#image-url-input").value.trim();
+    
+    bookObj.title = newTitle;
+    bookObj.author = newAuthor;
+    bookObj.pages = newPages;
+    bookObj.isRead = newIsRead;
+    bookObj.imageURL = newImageURL;
+
+    clearLibraryDisplay();
+    displayLibrary();
+
+    editModal.close();
+}
+
 function handleRemoveClick(event){
     //remove DOM element using ID
     const card = event.target.closest(".card");
     const cardID = card.dataset.id;
     card.remove();
 
-
-    console.log(cardID);
-    console.log(card);
-
-
     //remove element from the library array
-    console.log("remove");
     removeBookById(cardID);
 }
 
@@ -220,11 +264,12 @@ function getBookById(id){
 }
 
 function removeBookById(id){
-    console.log(myLibrary.findIndex(book => book.ID === id));
     let bookIndex = myLibrary.findIndex(book => book.ID === id);
     myLibrary.splice(bookIndex, 1);
-    console.log(myLibrary);
 }
+
+
+
 
 addBookToLibrary("The Hobbit", "J.R.R Tolkien", "310 Pages", false, "https://m.media-amazon.com/images/I/712cDO7d73L.jpg")
 addBookToLibrary("Space Odyssey", "Arthur Clarke", "296 Pages", true, "https://m.media-amazon.com/images/I/71v0Uz2n2GL.jpg")
