@@ -64,7 +64,10 @@ function createBookCard(book){
 
     const cover = document.createElement("img");
     cover.className = "book-cover";
-    cover.src = book.imageURL;
+    if (book.imageURL !== "")
+        cover.src = book.imageURL;
+    else
+        cover.src = "https://theprairiesbookreview.com/wp-content/uploads/2023/09/cover-not-availble-image.jpg";
 
     // book info
     const titleEl = document.createElement("p");
@@ -107,6 +110,7 @@ function createSVGIcon (path, color){
     const pathEl = document.createElementNS(svgNS, "path");
     pathEl.setAttribute("d", path);
     pathEl.setAttribute("fill", color);
+    pathEl.setAttribute("background", "blue");
 
     svgEl.appendChild(pathEl);
 
@@ -265,8 +269,6 @@ function removeBookById(id){
     let bookIndex = myLibrary.findIndex(book => book.ID === id);
     myLibrary.splice(bookIndex, 1);
 }
-
-
 
 
 addBookToLibrary("The Hobbit", "J.R.R Tolkien", 310, false, "https://m.media-amazon.com/images/I/712cDO7d73L.jpg")
