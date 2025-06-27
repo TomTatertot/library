@@ -39,7 +39,7 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
 }
 
 .card {
-  transition: transform 0.5s ease;
+  transition: transform 0.3s ease;
 }
 
 .card:hover {
@@ -77,6 +77,7 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
   height: 150px;
   overflow: hidden;
   position: absolute;
+  opacity: 0;
 }
 .ribbon::before,
 .ribbon::after {
@@ -109,8 +110,8 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
   transform: rotate(45deg);
 }
 
-.invisible {
-    opacity: 0;
+.visible {
+    opacity: 1;
 }
 
 .overlay-buttons {
