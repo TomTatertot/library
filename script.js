@@ -35,7 +35,6 @@ const editBookForm = document.querySelector(".edit-book-form");
 openModal.addEventListener("click", () => {
     modal.showModal();
 })
-
 addBookForm.addEventListener("submit", submitAddForm);
 editBookForm.addEventListener("submit", submitEditForm);
 
@@ -57,8 +56,6 @@ function submitAddForm(event){
     modal.close();
 }
 
-
-
 function addBookToLibrary(title, author, pages, isRead, imageURL) {
     myLibrary.push(new Book(title, author, pages, isRead, imageURL));
 }
@@ -77,7 +74,8 @@ function createBookCard(book){
     bookImg.className = "book-cover";
     
     // book info
-    bookImg.src = book.imageURL === "" ? DEFAULT_COVER_PATH : book.imageURL;
+    const imageURL = book.imageURL === "" ? DEFAULT_COVER_PATH : book.imageURL;
+    bookImg.src = imageURL;
     titleEl.textContent = book.title;
     authorEl.textContent = book.author;
     pagesEl.textContent = `${book.pages} pages`;
@@ -95,24 +93,6 @@ function createBookCard(book){
     card.append(bookImg, ribbon, overlay);
 
     return card;
-}
-
-
-function createSVGIcon (path){
-    const svgNS = "http://www.w3.org/2000/svg"; /* SVG Namespace */
-    const viewBox = "0 0 24 24";
-
-    const svgEl = document.createElementNS(svgNS, "svg");
-    svgEl.setAttribute("xmlns", svgNS);
-    svgEl.setAttribute("viewBox", viewBox);
-    
-    const pathEl = document.createElementNS(svgNS, "path");
-    pathEl.setAttribute("d", path);
-    pathEl.setAttribute("fill", ICONS_COLOR);
-
-    svgEl.appendChild(pathEl);
-
-    return svgEl;
 }
 
 function createOverlayButtons(book){
@@ -140,6 +120,7 @@ function createOverlayButtons(book){
     removeBtn.setAttribute("title", "Remove");
 
     readBtn.addEventListener("click", handleIsReadClick);
+    unreadBtn.addEventListener("click", handleIsReadClick);
     editBtn.addEventListener("click", handleEditClick);
     removeBtn.addEventListener("click", handleRemoveClick);
 
@@ -147,6 +128,24 @@ function createOverlayButtons(book){
     overlayButtonList.append(editBtn, removeBtn);
 
     return overlayButtonList;
+}
+
+
+function createSVGIcon (path){
+    const svgNS = "http://www.w3.org/2000/svg"; /* SVG Namespace */
+    const viewBox = "0 0 24 24";
+
+    const svgEl = document.createElementNS(svgNS, "svg");
+    svgEl.setAttribute("xmlns", svgNS);
+    svgEl.setAttribute("viewBox", viewBox);
+    
+    const pathEl = document.createElementNS(svgNS, "path");
+    pathEl.setAttribute("d", path);
+    pathEl.setAttribute("fill", ICONS_COLOR);
+
+    svgEl.appendChild(pathEl);
+
+    return svgEl;
 }
 
 function displayLibrary(){
@@ -165,6 +164,7 @@ function clearLibraryDisplay(){
 }
 
 function handleIsReadClick(event){
+    event.stopPropagation();
     const btn = event.target.closest("button");
     const bookCard = event.target.closest(".book");
 
@@ -213,6 +213,7 @@ function handleEditClick(event){
 
 function submitEditForm(event){
     event.preventDefault();
+    event.stopPropagation();
     const bookID =  editModal.dataset.bookId;
     const bookObj = getBookById(bookID);
 
@@ -237,10 +238,8 @@ function submitEditForm(event){
 function handleRemoveClick(event){
     event.stopPropagation();
     const card = event.target.closest(".card");
-    const cardID = card.dataset.id;
+    removeBookById(card.dataset.id);
     card.remove();
-
-    removeBookById(cardID);
 }
 
 function getBookById(id){
