@@ -21,9 +21,8 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
     justify-items: center;
-    padding: 3rem;
-    gap: 2rem;
-    /* min-width: 32rem; */
+    padding: 5rem 15rem;
+    gap: 4rem;
 }
 
 .card {
@@ -68,7 +67,6 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
 .card:hover .card-overlay {
     transform: scale(1.05);
     opacity: 1;
-  
 }
 
 /* common */
