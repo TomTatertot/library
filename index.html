@@ -14,38 +14,54 @@
         <h1 class="title">Personal Library</h1>
     </header>
     <div class="book-container">
-        <button class="card open-modal">
-            <p class="open-modal-text">+</p>
+        <button id ="addBookBtn"class="card add-book">
+            <p class="add-book-text">+</p>
         </button>
     </div>
-    <dialog class="modal" id="modal">
-        <form class="book-form" method="dialog">
+    <dialog class="modal" id="addModal">
+        <form id="addBookForm" method="dialog">
             <h2>Add Book</h2>
-            <label for="title-input">Title:<input type="text" name="bookTitle" id="title-input" required></label>
-            <label for="author-input">Author:<input type="text" name="author" id="author-input" required></label>
-            <label for="page-count-input">Pages: <input type="number" name="pageCount" id="page-count-input"required></label>
-            <label for="image-url-input">Image URL:<input type="text" name="imageURL" id="image-url-input"></label>
+            <label for="title">Title:
+                <input type="text" name="bookTitle" id="title" required>
+            </label>
+            <label for="author">Author:
+                <input type="text" name="author" id="author" required>
+            </label>
+            <label for="pageCount">Pages: 
+                <input type="number" name="pageCount" id="pageCount"required>
+            </label>
+            <label for="imageUrl">Image URL:
+                <input type="text" name="imageURL" id="imageUrl">
+            </label>
             <div class="modal-bottom">
                 <p>Read</p>
-                <label class="switch">
-                    <input type="checkbox" id="read-toggle">
+                <label for="readToggle" class="switch">
+                    <input type="checkbox" id="readToggle">
                     <span class="slider round"></span>
                 </label>
             <button type="submit">Submit</button>
             </div>
         </form>
     </dialog>
-    <dialog class="modal edit-modal" id="edit-modal">
-        <form class="edit-book-form" method="dialog">
+    <dialog class="modal" id="editModal">
+        <form id="editBookForm" method="dialog">
             <h2>Edit Book</h2>
-            <label for="title-input">Title:<input type="text" name="bookTitle" id="title-input"></label>
-            <label for="author-input">Author:<input type="text" name="author" id="author-input"></label>
-            <label for="page-count-input">Pages: <input type="number" name="pageCount" id="page-count-input"></label>
-            <label for="image-url-input">Image URL:<input type="text" name="imageURL" id="image-url-input"></label>
+            <label for="editTitle">Title:
+                <input type="text" name="bookTitle" id="editTitle">
+            </label>
+            <label for="editAuthor">Author:
+                <input type="text" name="author" id="editAuthor">
+            </label>
+            <label for="editPageCount">Pages: 
+                <input type="number" name="pageCount" id="editPageCount">
+            </label>
+            <label for="editImageUrl">Image URL:
+                <input type="text" name="imageURL" id="editImageUrl">
+            </label>
             <div class="modal-bottom">
                 <p>Read</p>
-                <label class="switch">
-                    <input type="checkbox" id="read-toggle">
+                <label for= "editReadToggle" class="switch">
+                    <input type="checkbox" id="editReadToggle">
                     <span class="slider round"></span>
                 </label>
             <button type="submit">Submit</button>

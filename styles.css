@@ -125,21 +125,21 @@ font-family: Montserrat, Iowan Old Style, Apple Garamond, Baskerville, Times New
     opacity: 0.7;
 }
 
-.open-modal{
+.add-book{
     font-size: 4rem;
     border: none;
 }
 
-.open-modal:hover,
-.open-modal:focus{
+.add-book:hover,
+.add-book:focus{
     background-color: rgba(0 0 0 / 30%);
 }
 
-.open-modal-text{
+.add-book-text{
     /* display: inline-block; */
     transition: transform 0.3s ease;
 }
-.open-modal:hover .open-modal-text {
+.add-book:hover .add-book-text {
     transform: rotate(90deg);
 }
 

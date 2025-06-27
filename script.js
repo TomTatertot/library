@@ -24,29 +24,25 @@ const REMOVE_ICON_PATH = "M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.
 const DEFAULT_COVER_PATH = "images/cover-not-availble-image.jpg";
 const ICONS_COLOR = "white";
 
-const modal = document.querySelector("#modal");
-const editModal = document.querySelector("#edit-modal");
-const openModal = document.querySelector(".open-modal");
-const closeModal = document.querySelector(".close-modal");
-const addBookForm = document.querySelector(".book-form");
-const editBookForm = document.querySelector(".edit-book-form");
+const bookContainer = document.querySelector(".book-container");
+const modal = document.querySelector("#addModal");
+const editModal = document.querySelector("#editModal");
+const addBookBtn = document.querySelector("#addBookBtn");
+const addBookForm = document.querySelector("#addBookForm");
+const editBookForm = document.querySelector("#editBookForm");
 
-
-openModal.addEventListener("click", () => {
-    modal.showModal();
-})
 addBookForm.addEventListener("submit", submitAddForm);
 editBookForm.addEventListener("submit", submitEditForm);
-
+bookContainer.addEventListener("click", handleBookButtons);
 
 function submitAddForm(event){
     event.preventDefault();
 
-    const title = document.querySelector('#title-input').value.trim();
-    const author = document.querySelector('#author-input').value.trim();
-    const pages = parseInt(document.querySelector('#page-count-input').value);
-    const isRead = document.querySelector('#read-toggle').checked;
-    const imageURL = document.querySelector("#image-url-input").value.trim();
+    const title = document.querySelector('#title').value.trim();
+    const author = document.querySelector('#author').value.trim();
+    const pages = parseInt(document.querySelector('#pageCount').value);
+    const isRead = document.querySelector('#readToggle').checked;
+    const imageURL = document.querySelector("#imageUrl").value.trim();
 
     addBookToLibrary(title, author, pages, isRead, imageURL);
     clearLibraryDisplay();
@@ -55,6 +51,48 @@ function submitAddForm(event){
     addBookForm.reset();
     modal.close();
 }
+
+
+function submitEditForm(event){
+    event.preventDefault();
+    event.stopPropagation();
+    const bookID =  editModal.dataset.bookId;
+    const bookObj = getBookById(bookID);
+
+    const newTitle = editModal.querySelector('#editTitle').value.trim();
+    const newAuthor = editModal.querySelector('#editAuthor').value.trim();
+    const newPages = parseInt(editModal.querySelector('#editPageCount').value);
+    const newIsRead = editModal.querySelector('#editReadToggle').checked;
+    const newImageURL = editModal.querySelector("#editImageUrl").value.trim();
+    
+    bookObj.title = newTitle;
+    bookObj.author = newAuthor;
+    bookObj.pages = newPages;
+    bookObj.isRead = newIsRead;
+    bookObj.imageURL = newImageURL;
+
+    clearLibraryDisplay();
+    displayLibrary();
+
+    editModal.close();
+}
+
+function handleBookButtons(e){
+    const button = e.target.closest("button");  
+    if (!button) return;
+
+    if (button.id === "addBookBtn")
+    {
+        modal.showModal();
+    }
+    else if (button.className === "read" || button.className === "unread")
+        toggleRead(e);
+    else if (button.className === "edit")
+        editBook(e);
+    else if (button.className === "remove")
+        removeBook(e);
+
+}; 
 
 function addBookToLibrary(title, author, pages, isRead, imageURL) {
     myLibrary.push(new Book(title, author, pages, isRead, imageURL));
@@ -68,27 +106,25 @@ function createBookCard(book){
     const titleEl = document.createElement("h3");
     const authorEl = document.createElement("h5");
     const pagesEl = document.createElement("p");
+    const imageURL = book.imageURL === "" ? DEFAULT_COVER_PATH : book.imageURL;
+
+    const ribbon = document.createElement("div");
+    const ribbonSpan = document.createElement("span");
 
     card.className = "card book";
     overlay.className = "card-overlay";
     bookImg.className = "book-cover";
-    
-    // book info
-    const imageURL = book.imageURL === "" ? DEFAULT_COVER_PATH : book.imageURL;
-    bookImg.src = imageURL;
-    titleEl.textContent = book.title;
-    authorEl.textContent = book.author;
-    pagesEl.textContent = `${book.pages} pages`;
-
-    const ribbon = document.createElement("div");
     ribbon.classList = "ribbon ribbon-top-right";
     ribbon.classList.toggle("visible", book.isRead);
     
-    const ribbonSpan = document.createElement("span");
+    titleEl.textContent = book.title;
+    authorEl.textContent = book.author;
+    pagesEl.textContent = `${book.pages} pages`;
     ribbonSpan.textContent = "read";
-    ribbon.appendChild(ribbonSpan)
-
+    bookImg.src = imageURL;
     card.dataset.id = book.ID;
+
+    ribbon.appendChild(ribbonSpan)
     overlay.append(titleEl, authorEl, pagesEl, createOverlayButtons(book));
     card.append(bookImg, ribbon, overlay);
 
@@ -99,39 +135,36 @@ function createOverlayButtons(book){
     const overlayButtonList = document.createElement("div");
     overlayButtonList.className = "overlay-buttons"
 
-    const readBtn = document.createElement("button");
-    const unreadBtn = document.createElement("button");
+    const toggleReadBtn = document.createElement("button");
     const editBtn = document.createElement("button");
     const removeBtn = document.createElement("button");
-    
-    const readIcon = createSVGIcon(READ_ICON_PATH);
-    const unreadIcon = createSVGIcon(UNREAD_ICON_PATH);
-    const editIcon = createSVGIcon(EDIT_ICON_PATH);
-    const removeIcon = createSVGIcon(REMOVE_ICON_PATH);
-    
-    readBtn.appendChild(readIcon);
-    unreadBtn.appendChild(unreadIcon);
-    editBtn.appendChild(editIcon);
-    removeBtn.appendChild(removeIcon);
 
-    readBtn.setAttribute("title", "Mark as read");
-    unreadBtn.setAttribute("title", "Mark as unread");
+    editBtn.classList = "edit";
+    removeBtn.classList = "remove";
+
     editBtn.setAttribute("title", "Edit");
     removeBtn.setAttribute("title", "Remove");
 
-    readBtn.addEventListener("click", handleIsReadClick);
-    unreadBtn.addEventListener("click", handleIsReadClick);
-    editBtn.addEventListener("click", handleEditClick);
-    removeBtn.addEventListener("click", handleRemoveClick);
+    removeBtn.append(svgIcon(REMOVE_ICON_PATH));
+    editBtn.append(svgIcon(EDIT_ICON_PATH));
 
-    overlayButtonList.append(book.isRead ? unreadBtn : readBtn);
-    overlayButtonList.append(editBtn, removeBtn);
+    if (book.isRead){
+        toggleReadBtn.classList = "unread";
+        toggleReadBtn.setAttribute("title", "Mark as unread");
+        toggleReadBtn.append(svgIcon(UNREAD_ICON_PATH));
+    }
+    else {
+        toggleReadBtn.classList = "read";
+        toggleReadBtn.setAttribute("title", "Mark as read");
+        toggleReadBtn.append(svgIcon(READ_ICON_PATH));
+    }
+    overlayButtonList.append(toggleReadBtn, editBtn, removeBtn);
 
     return overlayButtonList;
 }
 
 
-function createSVGIcon (path){
+function svgIcon (path){
     const svgNS = "http://www.w3.org/2000/svg"; /* SVG Namespace */
     const viewBox = "0 0 24 24";
 
@@ -163,7 +196,7 @@ function clearLibraryDisplay(){
     });
 }
 
-function handleIsReadClick(event){
+function toggleRead(event){
     event.stopPropagation();
     const btn = event.target.closest("button");
     const bookCard = event.target.closest(".book");
@@ -188,54 +221,30 @@ function handleIsReadClick(event){
 
     }
 }
-function handleEditClick(event){
+function editBook(event){
     const card = event.target.closest(".card");
     const bookObj = getBookById(card.dataset.id);
     console.log(bookObj);
 
-    const editModal = document.querySelector("#edit-modal");
+    const editModal = document.querySelector("#editModal");
     editModal.dataset.bookId = bookObj.ID;
-    const newTitle = editModal.querySelector('#title-input');
-    const newAuthor = editModal.querySelector('#author-input');
-    const newPages = editModal.querySelector('#page-count-input');
-    const newIsRead = editModal.querySelector('#read-toggle');
-    const newImageURL = editModal.querySelector("#image-url-input");
+    const newTitle = editModal.querySelector('#editTitle');
+    const newAuthor = editModal.querySelector('#editAuthor');
+    const newPages = editModal.querySelector('#editPageCount');
+    const newIsRead = editModal.querySelector('#editReadToggle');
+    const newImageURL = editModal.querySelector("#editImageUrl");
 
     newTitle.value = bookObj.title;
     newAuthor.value = bookObj.author;
     newPages.value = parseInt(bookObj.pages);
-    newIsRead.value = bookObj.isRead;
+    newIsRead.checked = bookObj.isRead;
     newImageURL.value = bookObj.imageURL;
 
     editModal.showModal();
     console.log("edit");
 }
 
-function submitEditForm(event){
-    event.preventDefault();
-    event.stopPropagation();
-    const bookID =  editModal.dataset.bookId;
-    const bookObj = getBookById(bookID);
-
-    const newTitle = editModal.querySelector('#title-input').value.trim();
-    const newAuthor = editModal.querySelector('#author-input').value.trim();
-    const newPages = parseInt(editModal.querySelector('#page-count-input').value);
-    const newIsRead = editModal.querySelector('#read-toggle').checked;
-    const newImageURL = editModal.querySelector("#image-url-input").value.trim();
-    
-    bookObj.title = newTitle;
-    bookObj.author = newAuthor;
-    bookObj.pages = newPages;
-    bookObj.isRead = newIsRead;
-    bookObj.imageURL = newImageURL;
-
-    clearLibraryDisplay();
-    displayLibrary();
-
-    editModal.close();
-}
-
-function handleRemoveClick(event){
+function removeBook(event){
     event.stopPropagation();
     const card = event.target.closest(".card");
     removeBookById(card.dataset.id);
